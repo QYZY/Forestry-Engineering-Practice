@@ -1,0 +1,218 @@
+:root {
+  /* 统一主题变量（默认：浅色） */
+  --bg: #f6f8ff;
+  --panel: #ffffff;
+  --card: #ffffff;
+  --card2: #f8fafc;
+  --text: #0f172a;
+  --muted: #475569;
+  --border: rgba(2, 6, 23, 0.10);
+  --shadow: 0 10px 30px rgba(2, 6, 23, 0.10);
+
+  --primary: #2e5bff;
+  --primary2: #1d4ed8;
+  --danger: #dc2626;
+  --success: #16a34a;
+  --warning: #d97706;
+
+  --radius: 12px;
+  --radius-sm: 10px;
+
+  /* 统一字体（显式字体栈，避免编辑器对 var(font) 误报） */
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+
+  line-height: 1.5;
+  font-weight: 400;
+
+  /* 强制浅色主题作为默认（不跟随系统 dark），避免变量被 dark 覆盖 */
+  color-scheme: light;
+  color: var(--text);
+  background-color: var(--bg);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 仅当你显式设置 data-theme="dark" 时才启用深色（不再跟随系统） */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0b1220;
+  --panel: #0f1b33;
+  --card: #0f1b33;
+  --card2: #111f3c;
+  --text: #eaf0ff;
+  --muted: #a9b6d3;
+  --border: rgba(255, 255, 255, 0.10);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+
+  --primary: #4f7cff;
+  --primary2: #2e5bff;
+  --danger: #ff4d4f;
+  --success: #34c759;
+  --warning: #ffc53d;
+}
+
+* { box-sizing: border-box; }
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+a:hover { color: var(--primary2); }
+
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 3px solid rgba(79, 124, 255, 0.55);
+  outline-offset: 2px;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    radial-gradient(1200px 600px at 20% -10%, rgba(46, 91, 255, 0.16), transparent 60%),
+    radial-gradient(900px 500px at 90% 0%, rgba(22, 163, 74, 0.10), transparent 55%),
+    var(--bg);
+  color: var(--text);
+}
+
+#app {
+  min-height: 100vh;
+}
+
+h1, h2, h3 {
+  color: var(--text);
+}
+
+/* 基础控件统一 */
+button, .btn {
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  /* 更浅的主色按钮（浅蓝） */
+  background: linear-gradient(180deg, #8fb7ff, #5f8dff);
+  color: #0b1220;
+  border-color: rgba(46, 91, 255, 0.25);
+  box-shadow: 0 10px 20px rgba(95, 141, 255, 0.22);
+  cursor: pointer;
+  transition: transform 120ms ease, filter 120ms ease, box-shadow 120ms ease;
+}
+button:hover, .btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.02);
+}
+button:disabled, .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* 可选：浅绿按钮（用于“成功/确认/开始”等） */
+.btn-success {
+  background: linear-gradient(180deg, #baf2cc, #6fe39a);
+  color: #06220f;
+  border-color: rgba(22, 163, 74, 0.28);
+  box-shadow: 0 10px 20px rgba(22, 163, 74, 0.18);
+}
+.btn-success:hover { filter: brightness(1.02); }
+
+/* 可选：灰色次按钮（取消/返回） */
+.btn-ghost {
+  background: #ffffff;
+  color: var(--text);
+  border-color: rgba(2, 6, 23, 0.14);
+  box-shadow: none;
+}
+.btn-ghost:hover { background: rgba(2, 6, 23, 0.03); }
+
+input, select, textarea {
+  width: 100%;
+  padding: 9px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: rgba(2, 6, 23, 0.03);
+  color: var(--text);
+}
+@media (prefers-color-scheme: light) {
+  input, select, textarea { background: #fff; }
+}
+
+/* 卡片统一 */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px;
+}
+
+/* 强制卡片内文字深色：提高优先级，解决 scoped/旧样式覆盖问题 */
+:root .card,
+:root .card * {
+  color: var(--text) !important;
+}
+
+:root .card h1,
+:root .card h2,
+:root .card h3,
+:root .card h4 {
+  color: var(--text) !important;
+}
+
+:root .card p,
+:root .card span,
+:root .card label,
+:root .card th,
+:root .card td {
+  color: var(--text) !important;
+}
+
+:root .card .error { color: var(--danger) !important; }
+:root .card .empty { color: var(--muted) !important; }
+
+/* 表格内容更清晰 */
+.card td, .card th { color: var(--text); }
+.card th { color: var(--muted); }
+
+/* 表格增强对比度 */
+table { width: 100%; border-collapse: collapse; }
+th, td {
+  border-bottom: 1px solid var(--border);
+  padding: 10px;
+  text-align: left;
+  font-size: 14px;
+}
+th {
+  color: var(--muted);
+  background: rgba(2, 6, 23, 0.03);
+  font-weight: 700;
+}
+
+/* 通用文本 */
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+.muted { color: var(--muted); }
+
+/* 小标签/提示 */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.06);
+}
+.badge.success { color: var(--success); }
+.badge.danger { color: var(--danger); }
+.badge.warning { color: var(--warning); }
+
+/* 让默认页面不再居中（原模板是居中展示） */
+body { display: block; }
+
+/* 深色模式下按钮文字仍保持白色以保证对比 */
+:root[data-theme="dark"] button,
+:root[data-theme="dark"] .btn {
+  color: #ffffff;
+}

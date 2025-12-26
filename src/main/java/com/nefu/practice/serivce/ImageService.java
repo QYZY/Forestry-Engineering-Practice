@@ -1,12 +1,11 @@
 package com.nefu.practice.serivce;
 
 
-import com.nefu.practice.common.Result;
 import com.nefu.practice.entity.Image;
-import com.nefu.practice.pojo.ImageUploadResponse;
 import com.nefu.practice.repository.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -40,7 +39,12 @@ public class ImageService {
             // 2. 保存文件
             String filename = imageId + "_" + file.getOriginalFilename();
             File dest = new File(IMAGE_DIR + filename);
-            dest.getParentFile().mkdirs();
+            if (dest.getParentFile() != null && !dest.getParentFile().exists()) {
+                boolean ok = dest.getParentFile().mkdirs();
+                if (!ok) {
+                    throw new RuntimeException("Failed to create dir: " + dest.getParent());
+                }
+            }
             file.transferTo(dest);
 
             // 3. 保存元数据
@@ -61,10 +65,10 @@ public class ImageService {
 
     }
     /**
-     * 查询影像列表
+     * 查询影像列表（按上传时间倒序）
      */
     public List<Image> list() {
-        return imageRepository.findAll();
+        return imageRepository.findAll(Sort.by(Sort.Direction.DESC, "uploadTime"));
     }
 
     /**
